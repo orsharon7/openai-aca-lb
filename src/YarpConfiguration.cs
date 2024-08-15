@@ -161,5 +161,10 @@ public class ThrottlingHealthPolicy : IPassiveHealthCheckPolicy
 
             _healthUpdater.SetPassive(cluster, destination, DestinationHealth.Unhealthy, TimeSpan.FromSeconds(retryAfterSeconds));
         }
+        else if (context.Response.StatusCode == 403)
+        {
+            var retryAfterSeconds = 30; // Set a specific retry time for 403 status code
+            _healthUpdater.SetPassive(cluster, destination, DestinationHealth.Unhealthy, TimeSpan.FromSeconds(retryAfterSeconds));
+        }
     }
 }
